@@ -56,7 +56,9 @@ except:
 
 for comment in submission.comments.list():
     try:
+        print() # Extra newline for legibility
         print(comment.body)
+        print() # Extra newline for legibility
         print() # Extra newline for legibility
     except:
         pass # Silently skip comments we can't print for some reason
