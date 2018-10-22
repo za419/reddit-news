@@ -31,5 +31,8 @@ submission.comments.replace_more(limit=None)
 
 # Now, iterate over all comments, and print them all out
 for comment in submission.comments.list():
-    print(comment.body)
-    print() # Extra newline for legibility
+    try:
+        print(comment.body)
+        print() # Extra newline for legibility
+    except:
+        pass # Silently skip comments we can't print for some reason
