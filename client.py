@@ -25,3 +25,11 @@ if "reddit.com" in sys.argv[1]:
     submission=reddit.submission(url=sys.argv[1])
 else:
     submission=reddit.submission(id=sys.argv[1])
+    
+# Remove 'more comments' and the like
+submission.comments.replace_more(limit=None)
+
+# Now, iterate over all comments, and print them all out
+for comment in submission.comments.list():
+    print(comment.body)
+    print() # Extra newline for legibility
