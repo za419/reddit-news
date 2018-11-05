@@ -31,6 +31,7 @@ if len(sys.argv)!=2:
     except:
         print("Usage: python client.py <target>")
     print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
+    sys.exit(1)
 
 reddit=praw.Reddit(user_agent="Comment Fetcher", client_id=secrets['client_id'],
                    client_secret=secrets['client_secret'])
