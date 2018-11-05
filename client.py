@@ -26,7 +26,10 @@ secrets=secrets['SECRETS']
 
 # Get target url
 if len(sys.argv)!=2:
-    print("Usage: {0} <target>".format(argv[0]))
+    try:
+        print("Usage: {0} <target>".format(argv[0]))
+    except:
+        print("Usage: python client.py <target>")
     print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
 
 reddit=praw.Reddit(user_agent="Comment Fetcher", client_id=secrets['client_id'],
