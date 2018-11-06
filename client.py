@@ -62,6 +62,10 @@ print() # Extra newline for legibility
 
 for comment in submission.comments.list():
     try:
+        # Skip printing deleted comments
+        if not comment.body:
+            continue
+
         print("Comment {0} at {1}:".format(comment.id, comment.permalink))
         print() # Extra newline for legibility
         print(comment.body)
