@@ -58,8 +58,11 @@ except:
     print("Unable to get comments from submission.\n{0}".format(exc_message()))
     sys.exit(1)
 
+print() # Extra newline for legibility
+
 for comment in submission.comments.list():
     try:
+        print("Comment {0} at {1}:".format(comment.id, comment.permalink))
         print() # Extra newline for legibility
         print(comment.body)
         print() # Extra newline for legibility
