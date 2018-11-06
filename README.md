@@ -29,6 +29,26 @@ Following the information found from Reddit.
 
 If done correctly, you should be able to perform comment fetches.
 
+## Usage
+### Comment fetching
+Run `python client.py <token>`
+
+Where `<token>` is either a URL to a Reddit thread, or the ID of one. Valid examples of either:
+
+- `https://www.reddit.com/r/funny/comments/5gn8ru/guardians_of_the_front_page/`
+- `5gn8ru`
+
+The output on large threads is very large, as it consists of every comment on the thread. Consider piping the output to your favorite pager:
+
+`python client.py 5gn8ru | less`
+
+This will take a few seconds to complete, due to API limitations.
+
+### Article scraper
+At the moment, the article scraper does not support alternative articles to the hardcoded default (see #2).
+
+Therefore, just run `python scraper.py`.
+
 ## Related artwork
 
 ![image](https://imgs.xkcd.com/comics/python.png)
