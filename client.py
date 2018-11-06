@@ -5,7 +5,7 @@ import os
 import sys
 import traceback
 from configparser import ConfigParser
-
+sys.stdout.reconfigure(encoding='utf-8')
 # Helper functions
 def exc_message():
     """
@@ -66,6 +66,8 @@ for comment in all:
         if not comment.body:
             continue
 
+        
+        
         print("Comment {0} at {1}:".format(comment.id, comment.permalink))
         print() # Extra newline for legibility
         print(comment.body)
