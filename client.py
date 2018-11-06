@@ -60,7 +60,7 @@ except:
 
 print() # Extra newline for legibility
 
-for comment in submission.comments.list():
+for comment in all:
     try:
         # Skip printing deleted comments
         if not comment.body:
