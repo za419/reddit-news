@@ -66,8 +66,6 @@ for comment in all:
         if not comment.body:
             continue
 
-        
-        
         print("Comment {0} at {1}:".format(comment.id, comment.permalink))
         print() # Extra newline for legibility
         print(comment.body)
