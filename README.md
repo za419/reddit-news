@@ -2,9 +2,9 @@
 EECS 338 project
 
 ## pip install
-- bs4
-- praw
-- git+https://github.com/stalkerg/python-readability
+- `bs4`
+- `praw`
+- `git+https://github.com/stalkerg/python-readability`
 
 ![image](https://imgs.xkcd.com/comics/python.png)
 
