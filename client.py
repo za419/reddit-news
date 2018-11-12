@@ -80,6 +80,7 @@ for comment in all:
         pass # Silently skip comments we can't print for some reason
 
 print() # Extra newline for legibility
+input("Press Enter to view scraped article text. ")
 print("Article text (with whitespace alterations):")
 print() # Extra newline for legibility
 
