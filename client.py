@@ -62,6 +62,7 @@ except:
     print("Unable to get comments from submission.\n{0}".format(exc_message()))
     sys.exit(1)
 
+print("Submission comments:")
 print() # Extra newline for legibility
 
 for comment in all:
@@ -77,5 +78,9 @@ for comment in all:
         print() # Extra newline for legibility
     except:
         pass # Silently skip comments we can't print for some reason
+
+print() # Extra newline for legibility
+print("Article text (with whitespace alterations):")
+print() # Extra newline for legibility
 
 print(scraped_text)
