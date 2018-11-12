@@ -43,16 +43,15 @@ submission=None
 try:
     if "reddit.com" in sys.argv[1]:
         submission=reddit.submission(url=sys.argv[1])
-        URL = submission.url
-        scraped_text = scrape(URL)
     else:
         submission=reddit.submission(id=sys.argv[1])
-        URL = submission.url
-        scraped_text = scrape(URL)
 except:
     print("Unable to find reddit submission.\n{0}".format(exc_message()))
     sys.exit(1)
 
+# Scrape article text
+URL = submission.url
+scraped_text = scrape(URL)
 
 # Now, iterate over all comments, and print them all out
 try:
