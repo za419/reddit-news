@@ -4,7 +4,6 @@ from readability.readability import Document
 import urllib.request
 
 def scrape(URL):
-    sys.stdout.reconfigure(encoding='utf-8')
     html = urllib.request.urlopen(URL).read()
     doc = Document(html)
     doc.parse(["summary", "short_title"])
