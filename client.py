@@ -5,6 +5,7 @@ import os
 import sys
 import traceback
 from configparser import ConfigParser
+from scraper import scrape
 sys.stdout.reconfigure(encoding='utf-8')
 # Helper functions
 def exc_message():
@@ -42,8 +43,12 @@ submission=None
 try:
     if "reddit.com" in sys.argv[1]:
         submission=reddit.submission(url=sys.argv[1])
+        URL = submission.url
+        scraped_text = scrape(URL)
     else:
         submission=reddit.submission(id=sys.argv[1])
+        URL = submission.url
+        scraped_text = scrape(URL)
 except:
     print("Unable to find reddit submission.\n{0}".format(exc_message()))
     sys.exit(1)
@@ -73,3 +78,5 @@ for comment in all:
         print() # Extra newline for legibility
     except:
         pass # Silently skip comments we can't print for some reason
+
+print(scraped_text)
