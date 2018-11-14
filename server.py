@@ -818,12 +818,25 @@ def readFrom(read, log=True):
                 logger.debug("Query body: %s", body)
                 logger.debug("Parsed: %s", query)
 
-                # Return the result wrapped in a JSON object
+                # Fetch information from Reddit
+                results=client.fetchall(query["target"][0])
+
+                # Process comments into JSON-format (article should just be a string)
+                article=results[0]
+                comments=results[1]
+
+                comments=['{{"id":"{0}","permalink":"{1}","body":"{2}"}}'.format(comment[0], comment[1], comment[2].replace("\"", "\\\"").replace("\n", "\\n")) for comment in comments]
+
+                comments=','.join(comments)
+
+                # Return the results wrapped in a JSON object
                 sendResponse("200 OK",
                              "application/json",
-                             '{}',
+                             '{{"text": "{0}", "comments": [{1}]}}'.format(article.replace("\"", "\\\"").replace("\n", "\\n"), comments),
                              read.conn,
                              allowEncodings=encodings)
+
+                logger.info("Sent response.")
             else:
                 # No other paths can receive a POST.
                 # Tell the browser it can't do that, and inform it that it may only use GET or HEAD here.
