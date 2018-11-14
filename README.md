@@ -51,6 +51,19 @@ Where `<url>` is a URL to an article to scrape.
 
 The output may not preserve whitespace.
 
+### Webserver
+Run `python server.py <port> <path to directory> [-c [seconds]]`.
+
+`<port>` is which port to serve the site on. If it's privileged (like 80), the server may require root access.
+
+The `<path to directory>` is the path to the root of the site (ie, the front-end folder). You probably want "public" if you're running it from this directory.
+
+If you provide `-c` (recommended), the server will instruct browsers they are permitted to cache resources. If you provide an integer after that flag, it will set the number of seconds advertised for caching, otherwise it will default to 3600 (one hour).
+
+Server logs are stored next to the server itself, in a folder called "logs".
+
+I also advise that you look over `default-config.ini` to see what parameters can be configured for the server. If you wish to override any, do not modify that file, but instead place them in a new file named `config.ini` following the same format. Any parameters in the latter file will be used preferentially.
+
 ## Related artwork
 
 ![image](https://imgs.xkcd.com/comics/python.png)
