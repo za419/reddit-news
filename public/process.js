@@ -32,6 +32,7 @@ $(document).ready(function() {
 
               list.appendChild(fragment.cloneNode(true));
 
+              document.getElementById("count").innerHTML=processed.comments.length.toString();
               document.getElementById("results").style.display="block";
           },
           error: function(xhr, str, exc) {
