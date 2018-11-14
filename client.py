@@ -28,7 +28,7 @@ secrets=secrets['SECRETS']
 # Get target url
 if len(sys.argv)!=2:
     try:
-        print("Usage: {0} <target>".format(argv[0]))
+        print("Usage: python {0} <target>".format(sys.argv[0]))
     except:
         print("Usage: python client.py <target>")
     print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
