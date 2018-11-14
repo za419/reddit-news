@@ -93,6 +93,22 @@ def scrape(target):
 
     return connected_scrape(submission(target))
 
+def connected_fetchall(sub):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts a Reddit submission object.
+    (see the fetchall() variant if you have a Reddit target, as accepted by submission() )
+    """
+
+    return (connected_scrape(sub), connected_comments(sub))
+
+def fetchall(target):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts either a Reddit thread URL or a Reddit thread ID.
+    """
+
+    return connected_fetchall(submission(target))
 
 if __name__=="__main__":
     # Get target url
