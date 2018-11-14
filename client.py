@@ -6,7 +6,13 @@ import sys
 import traceback
 from configparser import ConfigParser
 from scraper import scrape
-sys.stdout.reconfigure(encoding='utf-8')
+
+# On Python 3.7, output utf-8
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except:
+    pass
+
 # Helper functions
 def exc_message():
     """
