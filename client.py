@@ -73,21 +73,23 @@ def scrape(target):
 
     return scraper.scrape(sub.url)
 
-# Get target url
-if len(sys.argv)!=2:
-    try:
-        print("Usage: python {0} <target>".format(sys.argv[0]))
-    except:
-        print("Usage: python client.py <target>")
-    print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
-    sys.exit(1)
 
-for comment in comments(sys.argv[1]):
-    print("Comment {0} from {1}:\n{2}\n\n".format(comment[0], comment[1], comment[2]))
+if __name__=="__main__":
+    # Get target url
+    if len(sys.argv)!=2:
+        try:
+            print("Usage: python {0} <target>".format(sys.argv[0]))
+        except:
+            print("Usage: python client.py <target>")
+        print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
+        sys.exit(1)
 
-print() # Extra newline for legibility
-input("Press Enter to view scraped article text. ")
-print("Article text (with whitespace alterations):")
-print() # Extra newline for legibility
+    for comment in comments(sys.argv[1]):
+        print("Comment {0} from {1}:\n{2}\n\n".format(comment[0], comment[1], comment[2]))
 
-print(scrape(sys.argv[1]))
+    print() # Extra newline for legibility
+    input("Press Enter to view scraped article text. ")
+    print("Article text (with whitespace alterations):")
+    print() # Extra newline for legibility
+
+    print(scrape(sys.argv[1]))
