@@ -15,6 +15,7 @@ import gzip
 import bz2
 import re
 import lzma
+import json
 import client
 import logging
 import logging.handlers
@@ -822,17 +823,13 @@ def readFrom(read, log=True):
                 results=client.fetchall(query["target"][0])
 
                 # Process comments into JSON-format (article should just be a string)
-                article=results[0]
-                comments=results[1]
-
-                comments=['{{"id":"{0}","permalink":"{1}","body":"{2}"}}'.format(comment[0], comment[1], comment[2].replace("\"", "\\\"").replace("\n", "\\n")) for comment in comments]
-
-                comments=','.join(comments)
+                article=json.dumps(results[0])
+                comments=json.dumps(list(results[1]))
 
                 # Return the results wrapped in a JSON object
                 sendResponse("200 OK",
                              "application/json",
-                             '{{"text": "{0}", "comments": [{1}]}}'.format(article.replace("\"", "\\\"").replace("\n", "\\n"), comments),
+                             '{{"text": {0}, "comments": {1}}}'.format(article, comments),
                              read.conn,
                              allowEncodings=encodings)
 
