@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reddit News</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- jQuery from Google's CDN -->
+  <script src=https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Backend interfacing script -->
+  <script src="/process.js"></script>
+</head>
+<body>
+  <h1>Reddit News</h1>
+
+  <input id="target" placeholder="Enter your Reddit target here" type="text">
+  <button id="trigger">Fetch</button>
+
+  <div id="results" style="display:none">
+    <h4>Scraped article text:</h4>
+    <div id="article"></div>
+
+    <h4>Reddit comments:</h4>
+    <ul id="comments"></ul>
+  </div>
+</body>
