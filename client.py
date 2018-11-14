@@ -104,7 +104,10 @@ if __name__=="__main__":
         print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
         sys.exit(1)
 
-    for comment in comments(sys.argv[1]):
+    # Get the submission object for our target
+    sub=submission(sys.argv[1])
+
+    for comment in connected_comments(sub):
         print("Comment {0} from {1}:\n{2}\n\n".format(comment[0], comment[1], comment[2]))
 
     print() # Extra newline for legibility
@@ -112,4 +115,4 @@ if __name__=="__main__":
     print("Article text (with whitespace alterations):")
     print() # Extra newline for legibility
 
-    print(scrape(sys.argv[1]))
+    print(connected_scrape(sub))
