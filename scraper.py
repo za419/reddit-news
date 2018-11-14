@@ -4,6 +4,11 @@ from readability.readability import Document
 import urllib.request
 
 def scrape(URL):
+    """
+    Return the text of the article found at URL
+    Some whitespace changes will usually occur.
+    """
+
     html = urllib.request.urlopen(URL).read()
     doc = Document(html)
     doc.parse(["summary", "short_title"])
