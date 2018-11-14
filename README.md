@@ -45,9 +45,11 @@ The output on large threads is very large, as it consists of every comment on th
 This will take a few seconds to complete, due to API limitations.
 
 ### Article scraper
-At the moment, the article scraper does not support alternative articles to the hardcoded default (see [#2](https://github.com/za419/reddit-news/issues/2)).
+Run `python scraper.py <url>`
 
-Therefore, just run `python scraper.py`.
+Where `<url>` is a URL to an article to scrape.
+
+The output may not preserve whitespace.
 
 ## Related artwork
 
