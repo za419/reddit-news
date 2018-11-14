@@ -4,8 +4,8 @@ import praw
 import os
 import sys
 import traceback
+import scraper
 from configparser import ConfigParser
-from scraper import scrape
 
 # On Python 3.7, output utf-8
 try:
@@ -31,6 +31,48 @@ secrets = ConfigParser(interpolation=None)
 secrets.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'secrets.ini'))
 secrets=secrets['SECRETS']
 
+def submission(target):
+    """
+    Returns the Reddit submission object corresponding tothe given target.
+    """
+
+    reddit=praw.Reddit(user_agent="Comment Fetcher", client_id=secrets['client_id'],
+                       client_secret=secrets['client_secret'])
+
+    # Get a submission object
+    submission=None
+    # The submission is a URL if it includes 'reddit.com', else an ID
+    if "reddit.com" in target:
+        submission=reddit.submission(url=target)
+    else:
+        submission=reddit.submission(id=target)
+
+    return submission
+
+def comments(target):
+    """
+    Returns a collection of string tuples, where each tuple consists of a comment ID, comment URL, and the contents of the comment.
+    Accepts either a URL or a submission ID.
+    """
+
+    sub=submission(target)
+
+    # Now, iterate over all comments, and print them all out
+    # Remove 'more comments' and the like
+    sub.comments.replace_more(limit=None)
+    all=sub.comments.list()
+
+    return ((comment.id, comment.permalink, comment.body) for comment in all)
+
+def scrape(target):
+    """
+    Returns the scraped article text for the article linked in the given Reddit submission.
+    """
+
+    sub=submission(target)
+
+    return scraper.scrape(sub.url)
+
 # Get target url
 if len(sys.argv)!=2:
     try:
@@ -40,54 +82,12 @@ if len(sys.argv)!=2:
     print("  <target> can either be a link to a Reddit thread, or just a submission ID.")
     sys.exit(1)
 
-reddit=praw.Reddit(user_agent="Comment Fetcher", client_id=secrets['client_id'],
-                   client_secret=secrets['client_secret'])
-
-# Get a submission object
-submission=None
-# The submission is a URL if it includes 'reddit.com', else an ID
-try:
-    if "reddit.com" in sys.argv[1]:
-        submission=reddit.submission(url=sys.argv[1])
-    else:
-        submission=reddit.submission(id=sys.argv[1])
-except:
-    print("Unable to find reddit submission.\n{0}".format(exc_message()))
-    sys.exit(1)
-
-# Scrape article text
-URL = submission.url
-scraped_text = scrape(URL)
-
-# Now, iterate over all comments, and print them all out
-try:
-    # Remove 'more comments' and the like
-    submission.comments.replace_more(limit=None)
-    all=submission.comments.list()
-except:
-    print("Unable to get comments from submission.\n{0}".format(exc_message()))
-    sys.exit(1)
-
-print("Submission comments:")
-print() # Extra newline for legibility
-
-for comment in all:
-    try:
-        # Skip printing deleted comments
-        if not comment.body:
-            continue
-
-        print("Comment {0} at {1}:".format(comment.id, comment.permalink))
-        print() # Extra newline for legibility
-        print(comment.body)
-        print() # Extra newline for legibility
-        print() # Extra newline for legibility
-    except:
-        pass # Silently skip comments we can't print for some reason
+for comment in comments(sys.argv[1]):
+    print("Comment {0} from {1}:\n{2}\n\n".format(comment[0], comment[1], comment[2]))
 
 print() # Extra newline for legibility
 input("Press Enter to view scraped article text. ")
 print("Article text (with whitespace alterations):")
 print() # Extra newline for legibility
 
-print(scraped_text)
+print(scrape(sys.argv[1]))
