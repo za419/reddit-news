@@ -16,6 +16,7 @@ import bz2
 import re
 import lzma
 import json
+import cows
 import client
 import logging
 import logging.handlers
@@ -712,6 +713,9 @@ def readFrom(read, log=True):
             readFrom.blacklistResponse=False
 
         logger.verbose("%d blacklisted addresses.", len(readFrom.blacklist))
+
+        logger.verbose("Compiling cow easter egg regex...")
+        readFrom.cowPattern=re.compile(config['moo_regex'], re.IGNORECASE)
         logger.verbose("Done.")
 
     # Log which thread we're on
@@ -961,6 +965,38 @@ def readFrom(read, log=True):
                 file = ""
 
             # Not a teapot
+            # Check for the cow easter egg
+            if config.getboolean("enable_cows") and readFrom.cowPattern.fullmatch(method.split(b' ')[1].decode())!=None:
+                cow=cows.getCow()
+                 # Check if we're returning 200 OK or 404 Not Found
+                status = "404 Not Found"
+                if config.getboolean("cows_ok"):
+                    status = "200 OK"
+                # Send the response
+                sendResponse(status,
+                             "text/html",
+                             generateErrorPage(status,
+                                               """
+                                               </p>
+                                               <pre>
+                                                 {0}
+                                               </pre>
+                                               <footer style="background-color: #DDD;
+                                                              padding: 10px 10px 2px 10px;
+                                                              margin: 0;
+                                                              width: 100%;
+                                                              bottom: 0;
+                                                              left: 0;
+                                                              position: fixed">
+                                                  ASCii cow art is from <a href="https://www.asciiart.eu/animals/cows">The ASCii Art Archive</a>. The figures are property of their original creators, who are identified in the art if they chose to include identification in their work.
+                                               </footer>
+                                               """.format(cow)),
+                             read.conn,
+                             allowEncodings=encodings)
+                 # Log the cow
+                logger.warning("Became a cow in response to request for unfound file %s.", filename.decode())
+                file = ""
+            # Not a cow either
             else:
                 # Return 404.
                 sendResponse("404 Not Found",
