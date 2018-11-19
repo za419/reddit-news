@@ -1,11 +1,17 @@
 // Process.js: Handles linkage between web frontend and server backend
 
 $(document).ready(function() {
+   var cancel=undefined;
    $("#trigger").click(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
-      var cancel;
+      var loader=document.getElementById("loading");
+
+      if (cancel!==undefined) {
+          clearInterval(cancel);
+          loader.innerHTML="";
+      }
 
       $.ajax({
           type: "POST",
@@ -13,6 +19,11 @@ $(document).ready(function() {
           crossDomain: true,
           data: target,
           success: function (processed) {
+              // End loading animation
+              clearInterval(cancel);
+              loader.innerHTML="";
+              loader.display="none";
+
               document.getElementById("article").innerHTML=processed.text;
 
               var list=document.getElementById("comments");
@@ -48,7 +59,6 @@ $(document).ready(function() {
           }
       });
 
-      var loader=document.getElementById("loading");
       loader.style.display="block";
       var n=0;
       cancel=setInterval(function() {
