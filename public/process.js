@@ -2,13 +2,13 @@
 
 $(document).ready(function() {
    var cancel=undefined;
-   var lastRequest=0;
+   var lastRequest="";
    $("#trigger").click(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
 
-      var thisRequest=++lastRequest;
+      var thisRequest=lastRequest=target.target;
 
       var loader=document.getElementById("loading");
 
