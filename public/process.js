@@ -21,7 +21,7 @@ $(document).ready(function() {
           success: function (processed) {
               // End loading animation
               clearInterval(cancel);
-              loader.innerHTML="";
+              loader.innerHTML="&nbsp;";
               loader.display="none";
 
               document.getElementById("article").innerHTML=processed.text;
@@ -64,7 +64,7 @@ $(document).ready(function() {
       cancel=setInterval(function() {
           if (n>=3) {
               n=0;
-              loader.innerHTML="";
+              loader.innerHTML="&nbsp;";
           }
           else {
               ++n;
