@@ -15,6 +15,10 @@
   font-size: 5em;
 }
 
+#error {
+  display: none;
+}
+
 #target {
   width: 70%;
 }

@@ -18,6 +18,8 @@ $(document).ready(function() {
           loader.style.display="none";
       }
 
+      document.getElementById("error").style.display="none";
+
       $.ajax({
           type: "POST",
           url: "/process",
@@ -70,6 +72,7 @@ $(document).ready(function() {
                   console.log("Error: "+str);
               }
               document.getElementById("results").style.display="none";
+              document.getElementById("error").style.display="block";
           }
       });
 
