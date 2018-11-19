@@ -23,3 +23,13 @@ body {
   width: 50%;
   margin: auto;
 }
+
+@media(max-width: 1000px) {
+  #target {
+    width: 35%;
+  }
+
+  body {
+    width: 100%;
+  }
+}
