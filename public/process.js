@@ -10,7 +10,8 @@ $(document).ready(function() {
 
       if (cancel!==undefined) {
           clearInterval(cancel);
-          loader.innerHTML="";
+          loader.innerHTML="&nbsp;";
+          loader.style.display="none";
       }
 
       $.ajax({
@@ -22,7 +23,7 @@ $(document).ready(function() {
               // End loading animation
               clearInterval(cancel);
               loader.innerHTML="&nbsp;";
-              loader.display="none";
+              loader.style.display="none";
 
               document.getElementById("article").innerHTML=processed.text;
 
@@ -52,7 +53,7 @@ $(document).ready(function() {
               // End loading animation
               clearInterval(cancel);
               loader.innerHTML="&nbsp;";
-              loader.display="none";
+              loader.style.display="none";
 
               if (exc) {
                   console.log("Error: "+str+"\n"+exc);
