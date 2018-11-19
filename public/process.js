@@ -2,8 +2,10 @@
 
 $(document).ready(function() {
    $("#trigger").click(function() {
+      // Server request
       var target={};
       target.target=document.getElementById("target").value;
+      var cancel;
 
       $.ajax({
           type: "POST",
@@ -44,6 +46,20 @@ $(document).ready(function() {
               }
               document.getElementById("results").style.display="none";
           }
-      })
+      });
+
+      var loader=document.getElementById("loading");
+      loader.style.display="block";
+      var n=0;
+      cancel=setInterval(function() {
+          if (n>=3) {
+              n=0;
+              loader.innerHTML="";
+          }
+          else {
+              ++n;
+              loader.innerHTML+=".";
+          }
+      }, 1000);
    });
 });
