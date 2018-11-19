@@ -49,6 +49,11 @@ $(document).ready(function() {
               document.getElementById("results").style.display="block";
           },
           error: function(xhr, str, exc) {
+              // End loading animation
+              clearInterval(cancel);
+              loader.innerHTML="&nbsp;";
+              loader.display="none";
+
               if (exc) {
                   console.log("Error: "+str+"\n"+exc);
               }
