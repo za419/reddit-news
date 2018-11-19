@@ -19,6 +19,7 @@ $(document).ready(function() {
       }
 
       document.getElementById("error").style.display="none";
+      document.getElementById("results").style.display="none";
 
       $.ajax({
           type: "POST",
