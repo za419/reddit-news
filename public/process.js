@@ -2,10 +2,14 @@
 
 $(document).ready(function() {
    var cancel=undefined;
+   var lastRequest=0;
    $("#trigger").click(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
+
+      var thisRequest=++lastRequest;
+
       var loader=document.getElementById("loading");
 
       if (cancel!==undefined) {
@@ -20,6 +24,8 @@ $(document).ready(function() {
           crossDomain: true,
           data: target,
           success: function (processed) {
+              if (thisRequest!==lastRequest) return;
+
               // End loading animation
               clearInterval(cancel);
               loader.innerHTML="&nbsp;";
