@@ -15,5 +15,10 @@
 }
 
 #target {
-  width: 35%;
+  width: 70%;
+}
+
+body {
+  width: 50%;
+  margin: auto;
 }
