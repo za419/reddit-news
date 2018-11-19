@@ -9,9 +9,15 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Backend interfacing script -->
   <script src="/process.js"></script>
-  
+
   <!-- Page styling -->
   <link href="/index.css" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link rel="icon" href="icons/small.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="icons/medium.ico" sizes="32x32 48x48" type="image/vnd.microsoft.icon">
+  <link rel="icon" href="favicon.ico" sizes="72x72"> <!-- Omit type attribute for compatibility with certain browsers -->
+  <link rel="icon" href="icons/large.png" sizes="128x128 256x256 286x286">
 </head>
 <body>
   <h1>Reddit News</h1>
@@ -28,7 +34,7 @@
     <h4><span id="count"></span> Reddit comments:</h4>
     <ul id="comments"></ul>
   </div>
-  
+
   <div id="error">
     <h4>Something went wrong.</h4>
     <p>Oops! We weren't able to process that link.</p>
