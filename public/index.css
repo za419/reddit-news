@@ -1,0 +1,15 @@
+/*
+ * Index.css: styling for the index page.
+ * Currently very simple, mostly just the loading animation.
+ */
+
+#results {
+  display: none;
+}
+
+#loading {
+  display: none;
+  width: 50%;
+  margin: auto;
+  padding: 10px 0px 10px 0px;
+}
