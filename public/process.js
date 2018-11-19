@@ -24,6 +24,7 @@ $(document).ready(function() {
               clearInterval(cancel);
               loader.innerHTML="&nbsp;";
               loader.style.display="none";
+              cancel=undefined;
 
               document.getElementById("article").innerHTML=processed.text;
 
@@ -54,6 +55,7 @@ $(document).ready(function() {
               clearInterval(cancel);
               loader.innerHTML="&nbsp;";
               loader.style.display="none";
+              cancel=undefined;
 
               if (exc) {
                   console.log("Error: "+str+"\n"+exc);
