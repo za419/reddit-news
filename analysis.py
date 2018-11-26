@@ -4,6 +4,7 @@ from collections import Counter
 nlp = spacy.load('en')
 nlp.vocab["\n"].is_stop = True
 nlp.vocab["'s"].is_stop = True
+nlp.vocab[" "].is_stop = True
 
 def analyze(articleText, comments):
     """
