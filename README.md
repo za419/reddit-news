@@ -6,7 +6,11 @@ EECS 338 project
 To host Reddit News, you need to use `pip` to install the following packages:  
 - `bs4`
 - `praw`
+- `spacy`
 - `git+https://github.com/stalkerg/python-readability`
+
+Additionally, you need to run the command:  
+    python -m spacy download en
 
 ### secrets.ini
 To host Reddit News, you also need to have Reddit authentication set up, and provide this information in a file named `secrets.ini`, placed in the root directory of the repository (next to this README file).
