@@ -23,8 +23,12 @@ def analyze(articleText, comments):
     for token in article:
         if not token.is_stop and not token.like_num and not token.is_punct:
             articleTokens.append(token.lower_)
+
+    # Process all comments at once
+    comments=[(comment[0], comment[1], nlp(comment[2])) for comment in comments]
+
     for commentTriple in comments:
-        comment = nlp(commentTriple[2])
+        comment = commentTriple[2]
         for token in comment:
             if not token.is_stop and not token.like_num and not token.is_punct:
                 commentTokens.append(token.lower_)
