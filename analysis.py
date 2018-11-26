@@ -51,3 +51,19 @@ def analyze(articleText, comments):
 
     print(Counter(articleTokens))
     print(Counter(commentTokens))
+
+if __name__=="__main__":
+    # Just take arguments from argv and run analyze on them
+    import sys
+    import json
+
+    if len(sys.argv)!=3:
+        try:
+            print("Usage: python {0} <articleText> <commentTriples>".format(sys.argv[0]))
+        except:
+            print("Usage: python analysis.py <articleText> <commentTriples")
+        print("  <articleText> is the text of the analysis article.")
+        print("  <commentTriples> is the JSONified comments list as returned from client.py and parsed into JSON.")
+        sys.exit(1)
+
+    analyze(sys.argv[1], json.loads(sys.argv[2]))
