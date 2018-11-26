@@ -17,6 +17,16 @@ def analyze(articleText, comments):
     """
 
     article = nlp(articleText)
+
+    # Remove named entities from articleText (saving them for later)
+    articleEnts = article.ents
+    for ent in articleEnts: # First, replace entities with null zeros (preserving indexes)
+        articleText = articleText[:ent.start_char]+(chr(0)*len(ent.text))+articleText[ent.end_char:]
+    # Then replace all null zeros with empty strings
+    articleText = articleText.replace(chr(0), '')
+    # And re-analyze articleText (now sure that we don't have duplication between tokens and articleEnts).
+    article = nlp(articleText)
+
     articleTokens = []
     commentTokens = []
 
