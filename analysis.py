@@ -55,9 +55,11 @@ def analyze(articleText, comments):
         for token in comment[2]:
             if not token.is_stop and not token.like_num and not token.is_punct:
                 commentTokens.append(token.lower_)
+        for ent in comment[3]:
+            if not ent.is_stop and not token.like_num:
+                commentTokens.append(ent)
 
     print(Counter(articleTokens))
-    print(Counter([ent.text for ent in articleEnts]))
     print(Counter(commentTokens))
     
     # Sum up all comment entities and print that
