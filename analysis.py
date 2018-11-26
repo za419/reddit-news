@@ -36,13 +36,19 @@ def analyze(articleText, comments):
 
     # Process all comments at once for named entities
     comments=[(comment[0], comment[1], comment[2], nlp(comment[2]).ents) for comment in comments]
+    l=[]
 
     # Perform named entity removal over comments (See above)
     # Then replace original comment text with the tokenized version
     for comment in comments:
+        temp=comment[2]
         for ent in comment[3]:
-            comment[2]=comment[2][:ent.start_char]+(chr(0)*len(ent.text))+comment[2][ent.end_char:]
-        comment[2]=nlp(comment[2].replace(chr(0), ''))
+            temp=temp[:ent.start_char]+(chr(0)*len(ent.text))+temp[ent.end_char:]
+        temp=nlp(temp.replace(chr(0), '').replace("\n", " "))
+        l.append((comment[0], comment[1], temp, comment[3]))
+
+    comments=l
+    l=None
 
     for comment in comments:
         for token in comment[2]:
