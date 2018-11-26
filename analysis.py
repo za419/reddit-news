@@ -59,7 +59,7 @@ def analyze(articleText, comments):
     print(Counter(articleTokens))
     print(Counter(commentTokens))
 
-if __name__=="__main__":
+if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
     import sys
     import json
