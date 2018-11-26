@@ -57,7 +57,22 @@ def analyze(articleText, comments):
                 commentTokens.append(token.lower_)
 
     print(Counter(articleTokens))
+    print(Counter(articleEnts))
     print(Counter(commentTokens))
+    
+    # Sum up all comment entities and print that
+    commentTokens=[]
+    for comment in comments:
+        commentTokens=commentTokens+list(comment[3])
+    print(Counter(commentTokens))
+
+analyze("According to Cal Fire, the Camp Fire is now 100 percent contained and burned 153,336 acres. The Camp Fire started on Thursday, November 8 near Pulga Road and Camp Creek Road at 6:29 a.m. The fire quickly moved through the communities of Pulga, Concow, Paradise, and Magalia. As the assessment continues into the damage caused by the fire, 13,696 homes have been reported destroyed so far. The death toll is now at 85 as teams continue to search for the missing. 271 people remain unaccounted for according to the Butte County Sheriff's Office. The cause of the fire remains under investigation but according to Cal Fire, a second ignition point is possible and is being investigated.", [("eah518o", "/r/news/comments/a0a0v5/camp_fire_now_100_contained_153336_acres_burned/eah518o/", """Okay, at 15 miles to each side, that's 30x30, or 90 square miles per person, which is a bit more reasonable. This means North Carolina would be able to support 598 people, now.
+
+For reference, the 2017 population of Charlotte, NC is 859,035 people, just by itself, which is roughly twice the population of Atlanta, GA or Raleigh, NC.
+
+A population of about 600 people is roughly the size of one mid-size apartment complex.
+
+(This also means, for example, that NC could be good habitat for animals like wolves, just based on the hypothetical population density. If the human population density is greater than 2 people per square mile, healthy wolves will generally leave the area and move somewhere else.)"""),])
 
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
