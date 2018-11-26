@@ -23,8 +23,8 @@ def analyze(articleText, comments):
     articleEnts = article.ents
     for ent in articleEnts: # First, replace entities with null zeros (preserving indexes)
         articleText = articleText[:ent.start_char]+(chr(0)*len(ent.text))+articleText[ent.end_char:]
-    # Then replace all null zeros with empty strings
-    articleText = articleText.replace(chr(0), '')
+    # Then replace all null zeros with empty strings (and handle newlines in the process)
+    articleText = articleText.replace(chr(0), '').replace("\n", " ")
     # And re-analyze articleText (now sure that we don't have duplication between tokens and articleEnts).
     article = nlp(articleText)
 
