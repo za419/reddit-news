@@ -34,12 +34,18 @@ def analyze(articleText, comments):
         if not token.is_stop and not token.like_num and not token.is_punct:
             articleTokens.append(token.lower_)
 
-    # Process all comments at once
-    comments=[(comment[0], comment[1], nlp(comment[2])) for comment in comments]
+    # Process all comments at once for named entities
+    comments=[(comment[0], comment[1], comment[2], nlp(comment[2]).ents) for comment in comments]
 
-    for commentTriple in comments:
-        comment = commentTriple[2]
-        for token in comment:
+    # Perform named entity removal over comments (See above)
+    # Then replace original comment text with the tokenized version
+    for comment in comments:
+        for ent in comment[3]:
+            comment[2]=comment[2][:ent.start_char]+(chr(0)*len(ent.text))+comment[2][ent.end_char:]
+        comment[2]=nlp(comment[2].replace(chr(0), ''))
+
+    for comment in comments:
+        for token in comment[2]:
             if not token.is_stop and not token.like_num and not token.is_punct:
                 commentTokens.append(token.lower_)
 
