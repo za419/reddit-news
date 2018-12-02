@@ -7,8 +7,10 @@ $(document).ready(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
+      target.limit=document.getElementById("slider").value;
+      target.comments2=document.getElementById("comments2").checked;
 
-      var thisRequest=lastRequest=target.target;
+      var thisRequest=lastRequest=target;
 
       var loader=document.getElementById("loading");
 
@@ -89,5 +91,63 @@ $(document).ready(function() {
               loader.innerHTML+=".";
           }
       }, 1000);
+   });
+
+   function updateUnits() {
+      var units=document.getElementById("sliderUnit");
+      var value=document.getElementById("slider").value;
+      var comments2=document.getElementById("comments2").checked;
+
+      if (value==0) {
+          units.innerHTML="";
+      }
+      else if (value==1) {
+          if (comments2) {
+              units.innerHTML="replacement";
+          }
+          else {
+              units.innerHTML="comment";
+          }
+      }
+      else {
+          if (comments2) {
+              units.innerHTML="replacements";
+          }
+          else {
+              units.innerHTML="comments";
+          }
+      }
+   }
+
+   function updateCount() {
+      var label=document.getElementById("sliderValue");
+      var value=this.value;
+
+      if (value==0) {
+          label.innerHTML="None";
+      }
+      else {
+          label.innerHTML=value.toString();
+      }
+
+      updateUnits();
+   }
+
+   $("#slider").change(updateCount).on("input", updateCount);
+
+   $("#slider").trigger("change");
+
+   $("#comments2").change(function() {
+      var slider=document.getElementById("slider");
+      if (this.checked) {
+          slider.value=Math.floor((slider.value/slider.max)*100);
+          slider.max=100;
+      }
+      else {
+          var value=Math.floor((slider.value/slider.max)*1000);
+          slider.max=1000;
+          slider.value=value;
+      }
+      $("#slider").trigger("change");
    });
 });

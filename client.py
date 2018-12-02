@@ -3,6 +3,7 @@
 import praw
 import os
 import sys
+from time import sleep
 import traceback
 import scraper
 from configparser import ConfigParser
@@ -57,12 +58,7 @@ def connected_comments(sub):
     (see the comments() variant if you have a Reddit target, as accepted by submission() )
     """
 
-    # Iterate over all comments, and print them all out
-    # Remove 'more comments' and the like
-    sub.comments.replace_more(limit=None)
-    all=sub.comments.list()
-
-    return ((comment.id, comment.permalink, comment.body) for comment in all)
+    return connected_comments2(sub, None)
 
 def comments(target):
     """
@@ -73,6 +69,45 @@ def comments(target):
     """
 
     return connected_comments(submission(target))
+
+def connected_comments2(sub, limit=32):
+    """
+    Returns a collection of string tuples, where each tuple consists of a comment ID, comment URL, and the contents of the comment.
+    Accepts a Reddit submission object.
+    (see the comments2() variant if you have a Reddit target, as accepted by submission() )
+    This version allows a limit on the number of MoreComments objects to be replaced.
+    Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
+    """
+
+    # Iterate over all comments, and print them all out
+    # Remove 'more comments' and the like (allowing up to 50 failed requests before error)
+    n=0
+    while True:
+        try:
+            sub.comments.replace_more(limit=limit)
+            break
+        except:
+            if n<50:
+                n+=1
+                sleep(0.1*n) # Sleep for 100ms to allow for other work to be done/allow transient conditions to resolve themselves
+            else:
+                raise # We tried 50 times, but still couldn't do what was asked.
+
+    all=sub.comments.list()
+
+    return ((comment.id, comment.permalink, comment.body) for comment in all)
+
+def comments2(target, limit=32):
+    """
+    Returns a collection of string tuples, where each tuple consists of a comment ID, comment URL, and the contents of the comment.
+    Accepts either a Reddit thread url or a Reddit thread ID.
+    This is an alias for calling both submission() and connected_comments2().
+    If you also need to do scraping on the same target, it would be more efficient to store the submission object.
+    This version allows a limit on the number of MoreComments objects to be replaced.
+    Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
+    """
+
+    return connected_comments2(submission(target), limit)
 
 def connected_scrape(sub):
     """
@@ -109,6 +144,25 @@ def fetchall(target):
     """
 
     return connected_fetchall(submission(target))
+
+def connected_fetchall2(sub, limit=32):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts a Reddit submission object.
+    (see the fetchall() variant if you have a Reddit target, as accepted by submission() )
+    This version allows a limit on the number of MoreComments objects to be replaced.
+    Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
+    """
+
+    return (connected_scrape(sub), connected_comments2(sub, limit))
+
+def fetchall2(target, limit=32):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts either a Reddit thread URL or a Reddit thread ID.
+    """
+
+    return connected_fetchall2(submission(target), limit)
 
 if __name__=="__main__":
     # Get target url

@@ -21,6 +21,15 @@
 
 #target {
   width: 70%;
+  margin-top: 20px;
+}
+
+#options {
+  width: 60%;
+}
+
+#slider {
+  width:100%;
 }
 
 body {
@@ -31,6 +40,10 @@ body {
 @media(max-width: 1000px) {
   #target {
     width: 35%;
+  }
+
+  #options {
+    width: 30%;
   }
 
   body {

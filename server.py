@@ -824,7 +824,17 @@ def readFrom(read, log=True):
                 logger.debug("Parsed: %s", query)
 
                 # Fetch information from Reddit
-                results=client.fetchall(query["target"][0])
+                target=query["target"][0]
+                limit=int(query["limit"][0])
+                if limit==0:
+                    limit=None
+                comments2=(query["comments2"][0]=="true")
+                results=None
+                logger.debug("Fetching information for %s, limit %s, using %s.", target, limit, "comments2" if comments2 else "comments")
+                if comments2:
+                    results=client.fetchall2(target, limit)
+                else:
+                    results=client.fetchall(target)
 
                 # Process comments into JSON-format (article should just be a string)
                 article=json.dumps(results[0])
