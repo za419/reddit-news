@@ -7,6 +7,8 @@ $(document).ready(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
+      target.limit=document.getElementById("slider").value;
+      target.comments2=document.getElementById("comments2").checked;
 
       var thisRequest=lastRequest=target.target;
 
