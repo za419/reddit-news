@@ -826,6 +826,8 @@ def readFrom(read, log=True):
                 # Fetch information from Reddit
                 target=query["target"][0]
                 limit=int(query["limit"][0])
+                if limit==0:
+                    limit=None
                 comments2=(query["comments2"][0]=="true")
                 results=None
                 logger.debug("Fetching information for %s, limit %d, using %s.", target, limit, "comments2" if comments2 else "comments")
