@@ -56,9 +56,9 @@ class CommentBudgeted:
     Holds a PRAW comment and a depth budget allocated to it.
     """
 
-    def __init__(self, comment, parent, budget):
+    def __init__(self, comment, siblings, budget):
         self.comment=comment
-        self.parent=parent
+        self.siblings=siblings
         self.budget=budget
 
 def iterate_comments(comments, limit=200, breadthness=1.1):
@@ -75,9 +75,43 @@ def iterate_comments(comments, limit=200, breadthness=1.1):
     """
 
     top_level_goal=int(breadthness*(limit**.5))
-    individual_budget=int((limit/top_level_goal)+0.5) # Amount of comments allocated to each TLC
-    comments=[CommentBudgeted(comment, None, individual_budget) for comment in comments[:top_level_goal]]
-    return [c.comment for c in comments]
+    individual_budget=int((limit/top_level_goal)+.5) # Amount of comments allocated to each TLC
+    TLCs=comments[:top_level_goal]
+    stack=[CommentBudgeted(comment, [c for c in TLCs if c.id!=comment.id], individual_budget) for comment in TLCs]
+    results=[]
+
+    # Now that we have our starting data, it's time to iterate.
+    while len(stack)!=0 and limit>0:
+        # Get the next comment, add it to our results list, and update our data
+        comment=stack.pop()
+        if comment.budget<=0:
+            # Sorry, but we can't actually use this comment
+            continue
+
+        results.append(comment.comment)
+        limit-=1
+        comment.budget-=1
+
+        # If we have remaining depth, add some children to the stack
+        # Add as many children as we're allowed under the breadthness rule
+        goal=int(breadthness*(comment.budget**.5))
+        replies=comment.comment.replies[:goal]
+        if len(replies)==0:
+            # We have no replies to process.
+            # Therefore, we should redistribute our remaining depth budget to any siblings still on the stack
+            siblings=[s for s in comment.siblings if s in stack]
+            if len(siblings)!=0:
+                spread=int(comment.budget/len(siblings))
+                for s in siblings:
+                    s.budget+=s
+            continue
+
+        comment.budget-=len(replies)
+        budget=int((comment.budget/len(replies))+.5)
+        for reply in replies:
+            stack.append(CommentBudgeted(reply, [r for r in replies if r.id!=reply.id], budget))
+
+    return results
 
 def connected_comments(sub):
     """
