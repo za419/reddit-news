@@ -57,12 +57,7 @@ def connected_comments(sub):
     (see the comments() variant if you have a Reddit target, as accepted by submission() )
     """
 
-    # Iterate over all comments, and print them all out
-    # Remove 'more comments' and the like
-    sub.comments.replace_more(limit=None)
-    all=sub.comments.list()
-
-    return ((comment.id, comment.permalink, comment.body) for comment in all)
+    return connected_comments2(sub, None)
 
 def comments(target):
     """
