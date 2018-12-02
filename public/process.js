@@ -134,4 +134,18 @@ $(document).ready(function() {
    $("#slider").change(updateCount).on("input", updateCount);
 
    $("#slider").trigger("change");
+
+   $("#comments2").change(function() {
+      var slider=document.getElementById("slider");
+      if (this.checked) {
+          slider.value=Math.floor((slider.value/slider.max)*100);
+          slider.max=100;
+      }
+      else {
+          var value=Math.floor((slider.value/slider.max)*1000);
+          slider.max=1000;
+          slider.value=value;
+      }
+      $("#slider").trigger("change");
+   });
 });
