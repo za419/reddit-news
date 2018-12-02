@@ -108,6 +108,29 @@ def iterate_comments(comments, limit=200, breadthness=1.1):
             # Sorry, but we can't actually use this comment
             continue
 
+        if isinstance(comment.comment, praw.models.MoreComments):
+            # We have a MoreComments object that needs replacing
+            replacements=comment.comment.comments()
+            if len(replacements)==0:
+                # For some reason, the MoreComments was a lie.
+                bubble_budget(comment, stack)
+            else:
+                replacements=replacements[:comment.budget] # Make sure we don't have too many comments
+                spread=int(comment.budget/len(replacements))
+                replacementsBudgeted=[]
+                for c in replacements:
+                    r=CommentBudgeted(c, comment.siblings+[r for r in replacements if r.id!=c.id], spread)
+                    stack.append(r)
+                    replacementsBudgeted.append(r)
+
+                # Now that we've added those onto the stack, one tiny thing left...
+                # We need to update the siblings for all of our current siblings
+                for s in comment.siblings:
+                    s.siblings=replacementsBudgeted+[s for s in s.siblings if s in stack] # This works because we're already off the stack
+
+                # Now, we're done with this comment
+                continue
+
         results.append(comment.comment)
         limit-=1
         comment.budget-=1
