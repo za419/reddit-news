@@ -144,6 +144,14 @@ def connected_fetchall2(sub, limit=32):
 
     return (connected_scrape(sub), connected_comments(sub, limit))
 
+def fetchall2(target, limit=32):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts either a Reddit thread URL or a Reddit thread ID.
+    """
+
+    return connected_fetchall(submission(target), limit)
+
 if __name__=="__main__":
     # Get target url
     if len(sys.argv)!=2:
