@@ -61,6 +61,17 @@ class CommentBudgeted:
         self.siblings=siblings
         self.budget=budget
 
+def bubble_budget(comment, stack):
+    """
+    Redistributes all remaining budget in comment to other comments waiting in the stack.
+    """
+
+    siblings=[s for s in comment.siblings if s in stack]
+    if len(siblings)!=0:
+        spread=int(comment.budget/len(siblings))
+        for s in siblings:
+            s.budget+=s
+
 def iterate_comments(comments, limit=200, breadthness=1.1):
     """
     Performs the task of selecting comments from the CommentForest passed in comments.
@@ -99,11 +110,7 @@ def iterate_comments(comments, limit=200, breadthness=1.1):
         if len(replies)==0:
             # We have no replies to process.
             # Therefore, we should redistribute our remaining depth budget to any siblings still on the stack
-            siblings=[s for s in comment.siblings if s in stack]
-            if len(siblings)!=0:
-                spread=int(comment.budget/len(siblings))
-                for s in siblings:
-                    s.budget+=s
+            bubble_budget(comment, stack)
             continue
 
         comment.budget-=len(replies)
