@@ -90,4 +90,48 @@ $(document).ready(function() {
           }
       }, 1000);
    });
+
+   function updateUnits() {
+      var units=document.getElementById("sliderUnit");
+      var value=document.getElementById("slider").value;
+      var comments2=document.getElementById("comments2").checked;
+
+      if (value==0) {
+          units.innerHTML="";
+      }
+      else if (value==1) {
+          if (comments2) {
+              units.innerHTML="replacement";
+          }
+          else {
+              units.innerHTML="comment";
+          }
+      }
+      else {
+          if (comments2) {
+              units.innerHTML="replacements";
+          }
+          else {
+              units.innerHTML="comments";
+          }
+      }
+   }
+
+   function updateCount() {
+      var label=document.getElementById("sliderValue");
+      var value=this.value;
+
+      if (value==0) {
+          label.innerHTML="None";
+      }
+      else {
+          label.innerHTML=value.toString();
+      }
+
+      updateUnits();
+   }
+
+   $("#slider").change(updateCount).on("input", updateCount);
+
+   $("#slider").trigger("change");
 });
