@@ -10,7 +10,7 @@ $(document).ready(function() {
       target.limit=document.getElementById("slider").value;
       target.comments2=document.getElementById("comments2").checked;
 
-      var thisRequest=lastRequest=target.target;
+      var thisRequest=lastRequest=target;
 
       var loader=document.getElementById("loading");
 
