@@ -90,6 +90,18 @@ def connected_comments2(sub, limit=32):
 
     return ((comment.id, comment.permalink, comment.body) for comment in all)
 
+def comments2(target, limit=32):
+    """
+    Returns a collection of string tuples, where each tuple consists of a comment ID, comment URL, and the contents of the comment.
+    Accepts either a Reddit thread url or a Reddit thread ID.
+    This is an alias for calling both submission() and connected_comments2().
+    If you also need to do scraping on the same target, it would be more efficient to store the submission object.
+    This version allows a limit on the number of MoreComments objects to be replaced.
+    Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
+    """
+
+    return connected_comments2(submission(target), limit)
+
 def connected_scrape(sub):
     """
     Returns the scraped article text for the article linked in the given Reddit submission.
