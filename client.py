@@ -80,6 +80,7 @@ def iterate_comments(comments, limit=200, breadthness=1.1):
     """
     Performs the task of selecting comments from the CommentForest passed in comments.
     Will return a flattened list of at most limit comment objects.
+    If limit is None, will simply return all comments
     breadthness controls how the comment quota is allocated.
       It is described as a coefficient to the square root of the limit:
       And this expression will thus define how many top-level comments will be used
@@ -88,6 +89,10 @@ def iterate_comments(comments, limit=200, breadthness=1.1):
       Higher breadthness tends to get a wider span of topics
       Lower breadthness tends to get more detailed results.
     """
+
+    if limit is None:
+        comments.replace_more(limit=None)
+        return comments.list()
 
     top_level_goal=int(breadthness*(limit**.5))
     individual_budget=int((limit/top_level_goal)+.5) # Amount of comments allocated to each TLC
