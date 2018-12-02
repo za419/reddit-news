@@ -71,7 +71,7 @@ def bubble_budget(comment, stack):
         spread=int(comment.budget/len(siblings))
         for s in siblings:
             s.budget+=spread
-    else:
+    elif len(stack)!=0:
         spread=int(comment.budget/len(stack))
         for s in stack:
             s.budget+=spread
