@@ -150,7 +150,7 @@ def fetchall2(target, limit=32):
     Accepts either a Reddit thread URL or a Reddit thread ID.
     """
 
-    return connected_fetchall(submission(target), limit)
+    return connected_fetchall2(submission(target), limit)
 
 if __name__=="__main__":
     # Get target url
