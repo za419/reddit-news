@@ -830,7 +830,7 @@ def readFrom(read, log=True):
                     limit=None
                 comments2=(query["comments2"][0]=="true")
                 results=None
-                logger.debug("Fetching information for %s, limit %d, using %s.", target, limit, "comments2" if comments2 else "comments")
+                logger.debug("Fetching information for %s, limit %s, using %s.", target, limit, "comments2" if comments2 else "comments")
                 if comments2:
                     results=client.fetchall2(target, limit)
                 else:
