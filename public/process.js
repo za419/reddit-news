@@ -98,20 +98,20 @@ $(document).ready(function() {
       var value=document.getElementById("slider").value;
       var comments2=document.getElementById("comments2").checked;
 
-      if (value==0) {
-          units.innerHTML="";
-      }
-      else if (value==1) {
-          if (comments2) {
+      if (comments2) {
+          if (value==1) {
               units.innerHTML="replacement";
           }
           else {
-              units.innerHTML="comment";
+              units.innerHTML="replacements";
           }
       }
       else {
-          if (comments2) {
-              units.innerHTML="replacements";
+          if (value==0) {
+              units.innerHTML="";
+          }
+          else if (value==1) {
+              units.innerHTML="comment";
           }
           else {
               units.innerHTML="comments";
@@ -122,9 +122,15 @@ $(document).ready(function() {
    function updateCount() {
       var label=document.getElementById("sliderValue");
       var value=this.value;
+      var comments2=document.getElementById("comments2").checked;
 
       if (value==0) {
-          label.innerHTML="None";
+          if (comments2){
+             label.innerHTML="No";
+          }
+          else {
+            label.innerHTML="None";
+          }
       }
       else {
           label.innerHTML=value.toString();
