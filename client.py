@@ -133,6 +133,17 @@ def fetchall(target):
 
     return connected_fetchall(submission(target))
 
+def connected_fetchall2(sub, limit=32):
+    """
+    Returns a tuple, consisting of the scraped article text and the fetched comments for the given Reddit submission.
+    Accepts a Reddit submission object.
+    (see the fetchall() variant if you have a Reddit target, as accepted by submission() )
+    This version allows a limit on the number of MoreComments objects to be replaced.
+    Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
+    """
+
+    return (connected_scrape(sub), connected_comments(sub, limit))
+
 if __name__=="__main__":
     # Get target url
     if len(sys.argv)!=2:
