@@ -3,6 +3,7 @@
 import praw
 import os
 import sys
+from time import sleep
 import traceback
 import scraper
 from configparser import ConfigParser
@@ -79,8 +80,19 @@ def connected_comments2(sub, limit=32):
     """
 
     # Iterate over all comments, and print them all out
-    # Remove 'more comments' and the like
-    sub.comments.replace_more(limit=limit)
+    # Remove 'more comments' and the like (allowing up to 50 failed requests before error)
+    n=0
+    while True:
+        try:
+            sub.comments.replace_more(limit=limit)
+            break
+        except:
+            if n<50:
+                n+=1
+                sleep(0.1*n) # Sleep for 100ms to allow for other work to be done/allow transient conditions to resolve themselves
+            else:
+                raise # We tried 50 times, but still couldn't do what was asked.
+
     all=sub.comments.list()
 
     return ((comment.id, comment.permalink, comment.body) for comment in all)
