@@ -51,6 +51,34 @@ def submission(target):
 
     return out
 
+class CommentBudgeted:
+    """
+    Holds a PRAW comment and a depth budget allocated to it.
+    """
+
+    def __init__(self, comment, parent, budget):
+        self.comment=comment
+        self.parent=parent
+        self.budget=budget
+
+def iterate_comments(comments, limit=200, breadthness=1.1):
+    """
+    Performs the task of selecting comments from the CommentForest passed in comments.
+    Will return a flattened list of at most limit comment objects.
+    breadthness controls how the comment quota is allocated.
+      It is described as a coefficient to the square root of the limit:
+      And this expression will thus define how many top-level comments will be used
+      (assuming infinitely deep comment chains).
+      That is, it controls the ratio of breath-first behavior to depth-first behavior.
+      Higher breadthness tends to get a wider span of topics
+      Lower breadthness tends to get more detailed results.
+    """
+
+    top_level_goal=int(breadthness*(limit**.5))
+    individual_budget=int((limit/top_level_goal)+0.5) # Amount of comments allocated to each TLC
+    comments=[CommentBudgeted(comment, None, individual_budget) for comment in comments[:top_level_goal]]
+    return [c.comment for c in comments]
+
 def connected_comments(sub):
     """
     Returns a collection of string tuples, where each tuple consists of a comment ID, comment URL, and the contents of the comment.
@@ -58,7 +86,8 @@ def connected_comments(sub):
     (see the comments() variant if you have a Reddit target, as accepted by submission() )
     """
 
-    return connected_comments2(sub, None)
+    all=iterate_comments(sub.comments)
+    return ((comment.id, comment.permalink, comment.body) for comment in all)
 
 def comments(target):
     """
