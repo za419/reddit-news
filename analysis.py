@@ -19,7 +19,23 @@ def analyze(articleText, comments):
 
     # Return mock data for server testing
     related=(("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
-             ("eaywomj", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaywomj/","nurse", 15))
+    ("rhuang97", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/rhuang97/","Florida",20),
+    ("sjw1337", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sjw1337/","Florida",20),
+    ("sam123", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sam123/","Florida",20),
+    ("steve340", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/steve340/","Florida",20),
+    ("bboyday", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/bboyday/","Florida",20),
+    ("kkian111", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/kkian111/","Florida",20),
+    ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
+    ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
+    ("croweH", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/croweH/","Florida",20),
+    ("killian__", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/killian__/","Florida",20),
+    ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
+    ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
+    ("eaywomj", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaywomj/","nurse", 15)
+             
+             
+             )
+
     unrelated=(("eaz2fc6", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz2fc6/", "pads", 10),
                ("eaz8d2a", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz8d2a/", "oreos", 8))
     return (related, unrelated)
