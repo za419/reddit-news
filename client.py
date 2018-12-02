@@ -142,7 +142,7 @@ def connected_fetchall2(sub, limit=32):
     Since the duration taken by the function is proportional to the number of replaced objects, this is an approximate performance control.
     """
 
-    return (connected_scrape(sub), connected_comments(sub, limit))
+    return (connected_scrape(sub), connected_comments2(sub, limit))
 
 def fetchall2(target, limit=32):
     """
