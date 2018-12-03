@@ -37,29 +37,37 @@ $(document).ready(function() {
               loader.style.display="none";
               cancel=undefined;
 
-              document.getElementById("article").innerHTML=processed.text;
+              try {
+                  document.getElementById("article").innerHTML=processed.text;
 
-              var list=document.getElementById("comments");
-              var fragment=document.createDocumentFragment();
-              for (var i=0; i<processed.comments.length; ++i) {
-                  var item=document.createElement("li")
-                  item.appendChild(document.createTextNode("Comment "));
+                  var list=document.getElementById("comments");
+                  var fragment=document.createDocumentFragment();
+                  for (var i=0; i<processed.comments.length; ++i) {
+                      var item=document.createElement("li")
+                      item.appendChild(document.createTextNode("Comment "));
 
-                  var l=document.createElement("a");
-                  l.href="https://reddit.com"+processed.comments[i][1];
-                  l.appendChild(document.createTextNode(processed.comments[i][0]));
-                  item.appendChild(l);
+                      var l=document.createElement("a");
+                      l.href="https://reddit.com"+processed.comments[i][1];
+                      l.appendChild(document.createTextNode(processed.comments[i][0]));
+                      item.appendChild(l);
 
-                  item.appendChild(document.createElement("br"));
-                  item.appendChild(document.createTextNode(processed.comments[i][2]));
+                      item.appendChild(document.createElement("br"));
+                      item.appendChild(document.createTextNode(processed.comments[i][2]));
 
-                  fragment.appendChild(item);
+                      fragment.appendChild(item);
+                  }
+
+                  list.appendChild(fragment.cloneNode(true));
+
+                  document.getElementById("count").innerHTML=processed.comments.length.toString();
+                  document.getElementById("results").style.display="block";
               }
+              catch (e) {
+                  console.log("Encountered error: "+e);
 
-              list.appendChild(fragment.cloneNode(true));
-
-              document.getElementById("count").innerHTML=processed.comments.length.toString();
-              document.getElementById("results").style.display="block";
+                  document.getElementById("results").style.display="none";
+                  document.getElementById("error").style.display="block";
+              }
           },
           error: function(xhr, str, exc) {
               // End loading animation
