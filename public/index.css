@@ -64,5 +64,13 @@ body {
    */
   #unrelatedContainer,#relatedContainer {
     border: 1px solid transparent;
+
+    /* Make sure columns do not break within containers */
+    overflow: hidden; /* Fix for firefox and IE 10-11  */
+    -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
+    page-break-inside: avoid; /* Firefox */
+    break-inside: avoid; /* IE 10+ */
+    break-inside: avoid-column;
+
   }
 }
