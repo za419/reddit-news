@@ -733,9 +733,9 @@ def readFrom(read, log=True):
     "Performs the operation of reading from the given Connection or set of Connections"
 
     # Set up our generators for post thread names
-    if not hasattr(readFrom, "searcherName"):
+    if not hasattr(readFrom, "processorName"):
         logger.verbose("Configuring post thread name generators...")
-        readFrom.searcherName=nameIterable("Post searcher ")
+        readFrom.processorName=nameIterable("Query handler ")
 
         logger.verbose("Configuring connection blacklist...")
         blacklist = config['connection_blacklist']
@@ -852,7 +852,7 @@ def readFrom(read, log=True):
         if method.startswith(b"POST") and config.getboolean('enable_post'):
             logger.info("Received POST request to %s.", targ.decode())
             if targ==b"/process":
-                processRequest(request, read.conn, encodings)
+                createThread(processRequest, next(readFrom.processorName), (request, read.conn, encodings)).start()
             else:
                 # No other paths can receive a POST.
                 # Tell the browser it can't do that, and inform it that it may only use GET or HEAD here.
