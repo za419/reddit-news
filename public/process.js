@@ -2,6 +2,8 @@
 
 $(document).ready(function() {
     function formatResultsInto(keywords, list) {
+        while (list.firstChild) list.removeChild(list.firstChild);
+
         var fragment=document.createDocumentFragment();
         for (var i=0; i<keywords.length; ++i) {
             var item=document.createElement("li")
