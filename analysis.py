@@ -66,6 +66,20 @@ def analyze(articleText, comments):
                 if not ent.text in commentSources:
                     commentSources[token.lower_]=(comment[0], comment[1])
 
+    commentTokens=Counter(commentTokens)
+
+    related=[]
+    unrelated=[]
+    for el in commentTokens.most_common():
+        source=commentSources[el[0]]
+        keyword=(source[0], source[1], el[0], el[1])
+        if el[0] in articleTokens:
+            related.append(keyword)
+        else:
+            unrelated.append(keyword)
+
+    return (related, unrelated)
+
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
     import sys
