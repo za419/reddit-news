@@ -164,4 +164,11 @@ $(document).ready(function() {
       }
       $("#slider").trigger("change");
    });
+
+   // Now, the handler for pressing enter in the text field
+   $("#target").keyup(function(e) {
+       if (e.keyCode==13) {
+           $("#trigger").click();
+       }
+   });
 });
