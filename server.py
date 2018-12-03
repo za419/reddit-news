@@ -715,14 +715,17 @@ def processRequest(request, conn, encodings=None):
     else:
         results=client.fetchall(target)
 
+    # Now, we can run these results through our analyzer
+    results=analysis.analyze(results[0], list(results[1]))
+
     # Process comments into JSON-format (article should just be a string)
-    article=json.dumps(results[0])
-    comments=json.dumps(list(results[1]))
+    related=json.dumps(results[0])
+    unrelated=json.dumps(results[1])
 
     # Return the results wrapped in a JSON object
     sendResponse("200 OK",
                  "application/json",
-                 '{{"text": {0}, "comments": {1}}}'.format(article, comments),
+                 '{{"related": {0}, "unrelated": {1}}}'.format(related, unrelated),
                  conn,
                  allowEncodings=encodings)
 
