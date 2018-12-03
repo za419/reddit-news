@@ -179,4 +179,6 @@ $(document).ready(function() {
            $("#trigger").click();
        }
    });
+
+   $("#comments2").trigger("change");
 });
