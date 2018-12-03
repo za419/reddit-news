@@ -17,56 +17,12 @@ def analyze(articleText, comments):
     commentID and commentPermalink point to some comment which referred to the keyword.
     """
 
-    article = nlp(articleText)
-
-    # Remove named entities from articleText (saving them for later)
-    articleEnts = article.ents
-    for ent in articleEnts: # First, replace entities with null zeros (preserving indexes)
-        articleText = articleText[:ent.start_char]+(chr(0)*len(ent.text))+articleText[ent.end_char:]
-    # Then replace all null zeros with empty strings (and handle newlines in the process)
-    articleText = articleText.replace(chr(0), '').replace("\n", " ")
-    # And re-analyze articleText (now sure that we don't have duplication between tokens and articleEnts).
-    article = nlp(articleText)
-
-    articleTokens = []
-    commentTokens = []
-
-    for token in article:
-        if not token.is_stop and not token.like_num and not token.is_punct:
-            articleTokens.append(token.lower_)
-
-    # Process all comments at once for named entities
-    comments=[(comment[0], comment[1], comment[2], nlp(comment[2]).ents) for comment in comments]
-    l=[]
-
-    # Perform named entity removal over comments (See above)
-    # Then replace original comment text with the tokenized version
-    for comment in comments:
-        temp=comment[2]
-        for ent in comment[3]:
-            temp=temp[:ent.start_char]+(chr(0)*len(ent.text))+temp[ent.end_char:]
-        temp=nlp(temp.replace(chr(0), '').replace("\n", " "))
-        l.append((comment[0], comment[1], temp, comment[3]))
-
-    comments=l
-    l=None
-
-    for comment in comments:
-        for token in comment[2]:
-            if not token.is_stop and not token.like_num and not token.is_punct:
-                commentTokens.append(token.lower_)
-        for ent in comment[3]:
-            if not ent.is_stop and not token.like_num:
-                commentTokens.append(ent)
-
-    print(Counter(articleTokens))
-    print(Counter(commentTokens))
-    
-    # Sum up all comment entities and print that
-    commentTokens=[]
-    for comment in comments:
-        commentTokens=commentTokens+list(comment[3])
-    print(Counter([ent.text for ent in commentTokens]))
+    # Return mock data for server testing
+    related=(("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Florida",20),
+             ("eaywomj", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaywomj/","nurse", 15))
+    unrelated=(("eaz2fc6", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz2fc6/", "pads", 10),
+               ("eaz8d2a", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz8d2a/", "oreos", 8))
+    return (related, unrelated)
 
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
