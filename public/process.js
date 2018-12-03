@@ -1,9 +1,28 @@
 // Process.js: Handles linkage between web frontend and server backend
 
 $(document).ready(function() {
-   var cancel=undefined;
-   var lastRequest="";
-   $("#trigger").click(function() {
+    function formatResultsInto(keywords, list) {
+        var fragment=document.createDocumentFragment();
+        for (var i=0; i<keywords.length; ++i) {
+            var item=document.createElement("li")
+            item.appendChild(document.createTextNode(keywords[i][2]));
+            item.appendChild(document.createElement("br"));
+            item.appendChild(document.createTextNode("Found at comment "));
+
+            var l=document.createElement("a");
+            l.href="https://reddit.com"+keywords[i][1];
+            l.appendChild(document.createTextNode(keywords[i][0]));
+            item.appendChild(l);
+
+            fragment.appendChild(item);
+        }
+
+        list.appendChild(fragment.cloneNode(true));
+    }
+
+    var cancel=undefined;
+    var lastRequest="";
+    $("#trigger").click(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
@@ -38,28 +57,9 @@ $(document).ready(function() {
               cancel=undefined;
 
               try {
-                  document.getElementById("article").innerHTML=processed.text;
+                  formatResultsInto(processed.related, document.getElementById("related"));
+                  formatResultsInto(processed.unrelated, document.getElementById("unrelated"));
 
-                  var list=document.getElementById("comments");
-                  var fragment=document.createDocumentFragment();
-                  for (var i=0; i<processed.comments.length; ++i) {
-                      var item=document.createElement("li")
-                      item.appendChild(document.createTextNode("Comment "));
-
-                      var l=document.createElement("a");
-                      l.href="https://reddit.com"+processed.comments[i][1];
-                      l.appendChild(document.createTextNode(processed.comments[i][0]));
-                      item.appendChild(l);
-
-                      item.appendChild(document.createElement("br"));
-                      item.appendChild(document.createTextNode(processed.comments[i][2]));
-
-                      fragment.appendChild(item);
-                  }
-
-                  list.appendChild(fragment.cloneNode(true));
-
-                  document.getElementById("count").innerHTML=processed.comments.length.toString();
                   document.getElementById("results").style.display="block";
               }
               catch (e) {
