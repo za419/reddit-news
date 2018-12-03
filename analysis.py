@@ -37,20 +37,20 @@ def analyze(articleText, comments):
              )
 
     unrelated=(("eaz2fc6", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz2fc6/", "pads", 10),
-               ("eaz8d2a", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz8d2a/", "oreos", 8)),
-               ("rhuang97", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/rhuang97/","Boston",15),
-                ("sjw1337", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sjw1337/","Shooter",8),
-                ("sam123", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sam123/","China",13),
-                ("steve340", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/steve340/","Japan",11),
-                ("bboyday", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/bboyday/","Terrorist",14),
-                ("kkian111", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/kkian111/","Saudi Arabia",32),
-                ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Brazil",24),
-                ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Ronaldo",24),
-                ("croweH", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/croweH/","Messi",13),
-                ("killian__", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/killian__/","doctor",10),
-                ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","patient",30),
-                ("eaz0310", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Hurricane",17),
-                ("eaywomj", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaywomj/","nurse", 15))
+               ("ty4td2a", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz8d2a/", "oreos", 8)),
+               ("mikefjwf97", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/rhuang97/","Boston",15),
+                ("himynameis999", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sjw1337/","Shooter",8),
+                ("trumpistheman", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/sam123/","China",13),
+                ("bobthebuilder", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/steve340/","Japan",11),
+                ("todayistheday", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/bboyday/","Terrorist",14),
+                ("4324rfe", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/kkian111/","Saudi Arabia",32),
+                ("sed720", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Brazil",24),
+                ("this777bye", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Ronaldo",24),
+                ("messi99124", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/croweH/","Messi",13),
+                ("thfc1882", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/killian__/","doctor",10),
+                ("nttf124123", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","patient",30),
+                ("medsed123", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaz0310/","Hurricane",17),
+                ("12345abcde", "/r/news/comments/a2hl8o/grandma_mistakenly_booked_into_allmale_jail_staff/eaywomj/","nurse", 15))
     return (related, unrelated)
 
 if __name__=="__main__" and False:
