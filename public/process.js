@@ -7,7 +7,7 @@ $(document).ready(function() {
             var item=document.createElement("li")
             item.appendChild(document.createTextNode(keywords[i][2]));
             item.appendChild(document.createElement("br"));
-            item.appendChild(document.createTextNode("Found at comment "));
+            item.appendChild(document.createTextNode(keywords[i][3]+" mentions, including at comment "));
 
             var l=document.createElement("a");
             l.href="https://reddit.com"+keywords[i][1];
