@@ -56,8 +56,6 @@ body {
   #results {
     clear: both;
     column-count: 2;
-    column-gap: 4em;
-    column-rule-style: outset;
   }
 
   /*
