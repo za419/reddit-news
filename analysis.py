@@ -52,8 +52,6 @@ def analyze(articleText, comments):
     comments=l
     l=None
 
-    allowed_types=["PERSON", "FAC", "ORG", "GPE", "LOC", "EVENT", "WORK_OF_ART"]
-
     for comment in comments:
         for token in comment[2]:
             if not token.is_stop and not token.like_num and not token.is_punct:
@@ -61,10 +59,9 @@ def analyze(articleText, comments):
                 if not token.lower_ in commentSources:
                     commentSources[token.lower_]=(comment[0], comment[1])
         for ent in comment[3]:
-            if ent.ent_type_ in allowed_types:
-                commentTokens.append(ent.text)
-                if not ent.text in commentSources:
-                    commentSources[token.lower_]=(comment[0], comment[1])
+            commentTokens.append(ent.text)
+            if not ent.text in commentSources:
+                commentSources[ent.text]=(comment[0], comment[1])
 
     commentTokens=Counter(commentTokens)
 
