@@ -1,14 +1,41 @@
 // Process.js: Handles linkage between web frontend and server backend
 
 $(document).ready(function() {
-   var cancel=undefined;
-   var lastRequest="";
-   $("#trigger").click(function() {
+    function formatResultsInto(keywords, list) {
+        while (list.firstChild) list.removeChild(list.firstChild);
+
+        var fragment=document.createDocumentFragment();
+        for (var i=0; i<keywords.length; ++i) {
+            var item=document.createElement("li")
+            item.appendChild(document.createTextNode(keywords[i][2]));
+            item.appendChild(document.createElement("br"));
+            item.appendChild(document.createTextNode(keywords[i][3]+" mentions, including at comment "));
+
+            var l=document.createElement("a");
+            l.href="https://reddit.com"+keywords[i][1];
+            l.appendChild(document.createTextNode(keywords[i][0]));
+            item.appendChild(l);
+
+            fragment.appendChild(item);
+        }
+
+        list.appendChild(fragment.cloneNode(true));
+    }
+
+    var cancel=undefined;
+    var lastRequest="";
+    $("#trigger").click(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
-      target.limit=document.getElementById("slider").value;
-      target.comments2=document.getElementById("comments2").checked;
+      if (document.getElementById("unlimited").checked) {
+          target.limit=0;
+          target.comments2=false;
+      }
+      else {
+          target.limit=document.getElementById("slider").value;
+          target.comments2=true;
+      }
 
       var thisRequest=lastRequest=target;
 
@@ -37,29 +64,20 @@ $(document).ready(function() {
               loader.style.display="none";
               cancel=undefined;
 
-              document.getElementById("article").innerHTML=processed.text;
+              try {
+                  document.getElementById("relatedCount").innerHTML=processed.related.length;
+                  document.getElementById("unrelatedCount").innerHTML=processed.unrelated.length;
+                  formatResultsInto(processed.related, document.getElementById("related"));
+                  formatResultsInto(processed.unrelated, document.getElementById("unrelated"));
 
-              var list=document.getElementById("comments");
-              var fragment=document.createDocumentFragment();
-              for (var i=0; i<processed.comments.length; ++i) {
-                  var item=document.createElement("li")
-                  item.appendChild(document.createTextNode("Comment "));
-
-                  var l=document.createElement("a");
-                  l.href="https://reddit.com"+processed.comments[i][1];
-                  l.appendChild(document.createTextNode(processed.comments[i][0]));
-                  item.appendChild(l);
-
-                  item.appendChild(document.createElement("br"));
-                  item.appendChild(document.createTextNode(processed.comments[i][2]));
-
-                  fragment.appendChild(item);
+                  document.getElementById("results").style.display="block";
               }
+              catch (e) {
+                  console.log("Encountered error: "+e+":\n"+e.stack);
 
-              list.appendChild(fragment.cloneNode(true));
-
-              document.getElementById("count").innerHTML=processed.comments.length.toString();
-              document.getElementById("results").style.display="block";
+                  document.getElementById("results").style.display="none";
+                  document.getElementById("error").style.display="block";
+              }
           },
           error: function(xhr, str, exc) {
               // End loading animation
@@ -96,7 +114,7 @@ $(document).ready(function() {
    function updateUnits() {
       var units=document.getElementById("sliderUnit");
       var value=document.getElementById("slider").value;
-      var comments2=document.getElementById("comments2").checked;
+      var comments2=true;
 
       if (comments2) {
           if (value==1) {
@@ -122,7 +140,7 @@ $(document).ready(function() {
    function updateCount() {
       var label=document.getElementById("sliderValue");
       var value=this.value;
-      var comments2=document.getElementById("comments2").checked;
+      var comments2=true;
 
       if (value==0) {
           if (comments2){
@@ -156,4 +174,13 @@ $(document).ready(function() {
       }
       $("#slider").trigger("change");
    });
+
+   // Now, the handler for pressing enter in the text field
+   $("#target").keyup(function(e) {
+       if (e.keyCode==13) {
+           $("#trigger").click();
+       }
+   });
+
+   $("#comments2").trigger("change");
 });

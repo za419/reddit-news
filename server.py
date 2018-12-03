@@ -10,6 +10,7 @@ import hashlib
 import base64
 import math
 import traceback
+import analysis
 import string
 import gzip
 import bz2
@@ -691,14 +692,53 @@ def nameIterable(prefix):
         yield prefix+str(ID)
         ID+=1
 
+def processRequest(request, conn, encodings=None):
+    "Process the Reddit processing request in request"
+
+    body = requestBody(request)
+    query = parse.parse_qs(body)
+
+    # Log before we attempt to use the query
+    logger.debug("Query body: %s", body)
+    logger.debug("Parsed: %s", query)
+
+    # Fetch information from Reddit
+    target=query["target"][0]
+    limit=int(query["limit"][0])
+    comments2=(query["comments2"][0]=="true")
+    if limit==0 and not comments2:
+        limit=None
+    results=None
+    logger.debug("Fetching information for %s, limit %s, using %s.", target, limit, "comments2" if comments2 else "comments")
+    if comments2:
+        results=client.fetchall2(target, limit)
+    else:
+        results=client.fetchall(target)
+
+    # Now, we can run these results through our analyzer
+    results=analysis.analyze(results[0], list(results[1]))
+
+    # Process comments into JSON-format (article should just be a string)
+    related=json.dumps(results[0])
+    unrelated=json.dumps(results[1])
+
+    # Return the results wrapped in a JSON object
+    sendResponse("200 OK",
+                 "application/json",
+                 '{{"related": {0}, "unrelated": {1}}}'.format(related, unrelated),
+                 conn,
+                 allowEncodings=encodings)
+
+    logger.info("Sent response.")
+
 # Network operation helper functions
 def readFrom(read, log=True):
     "Performs the operation of reading from the given Connection or set of Connections"
 
     # Set up our generators for post thread names
-    if not hasattr(readFrom, "searcherName"):
+    if not hasattr(readFrom, "processorName"):
         logger.verbose("Configuring post thread name generators...")
-        readFrom.searcherName=nameIterable("Post searcher ")
+        readFrom.processorName=nameIterable("Query handler ")
 
         logger.verbose("Configuring connection blacklist...")
         blacklist = config['connection_blacklist']
@@ -815,39 +855,7 @@ def readFrom(read, log=True):
         if method.startswith(b"POST") and config.getboolean('enable_post'):
             logger.info("Received POST request to %s.", targ.decode())
             if targ==b"/process":
-                # We're expected to query this
-                body = requestBody(request)
-                query = parse.parse_qs(body)
-
-                # Log before we attempt to use the query
-                logger.debug("Query body: %s", body)
-                logger.debug("Parsed: %s", query)
-
-                # Fetch information from Reddit
-                target=query["target"][0]
-                limit=int(query["limit"][0])
-                comments2=(query["comments2"][0]=="true")
-                if limit==0 and not comments2:
-                    limit=None
-                results=None
-                logger.debug("Fetching information for %s, limit %s, using %s.", target, limit, "comments2" if comments2 else "comments")
-                if comments2:
-                    results=client.fetchall2(target, limit)
-                else:
-                    results=client.fetchall(target)
-
-                # Process comments into JSON-format (article should just be a string)
-                article=json.dumps(results[0])
-                comments=json.dumps(list(results[1]))
-
-                # Return the results wrapped in a JSON object
-                sendResponse("200 OK",
-                             "application/json",
-                             '{{"text": {0}, "comments": {1}}}'.format(article, comments),
-                             read.conn,
-                             allowEncodings=encodings)
-
-                logger.info("Sent response.")
+                createThread(processRequest, next(readFrom.processorName), (request, read.conn, encodings)).start()
             else:
                 # No other paths can receive a POST.
                 # Tell the browser it can't do that, and inform it that it may only use GET or HEAD here.
@@ -1286,6 +1294,8 @@ def main():
     global writer
     global readname
     global writename
+
+    logger.info("Server entering network loop.")
 
     while True:
         # Make sure the accept socket is in the select list

@@ -77,7 +77,6 @@ def analyze(articleText, comments):
             related.append(keyword)
         else:
             unrelated.append(keyword)
-
     return (related, unrelated)
 
 if __name__=="__main__" and False:
