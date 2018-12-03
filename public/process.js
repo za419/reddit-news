@@ -57,6 +57,8 @@ $(document).ready(function() {
               cancel=undefined;
 
               try {
+                  document.getElementById("relatedCount").innerHTML=processed.related.length;
+                  document.getElementById("unrelatedCount").innerHTML=processed.unrelated.length;
                   formatResultsInto(processed.related, document.getElementById("related"));
                   formatResultsInto(processed.unrelated, document.getElementById("unrelated"));
 
