@@ -74,6 +74,12 @@ A population of about 600 people is roughly the size of one mid-size apartment c
         for ent in comment[3]:
             if ent.text in spacy.lang.en.stop_words.STOP_WORDS:
                 continue
+            try:
+                float(ent.text)
+                continue
+            except:
+                pass
+
             commentTokens.append(ent.text)
             if not ent.text in commentSources:
                 commentSources[ent.text]=(comment[0], comment[1])
