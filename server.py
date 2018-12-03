@@ -1292,6 +1292,8 @@ def main():
     global readname
     global writename
 
+    logger.info("Server entering network loop.")
+
     while True:
         # Make sure the accept socket is in the select list
         try:
