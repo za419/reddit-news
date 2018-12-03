@@ -51,22 +51,15 @@ def analyze(articleText, comments):
     comments=l
     l=None
 
+    allowed_types=["PERSON", "FAC", "ORG", "GPE", "LOC", "EVENT", "WORK_OF_ART"]
+
     for comment in comments:
         for token in comment[2]:
             if not token.is_stop and not token.like_num and not token.is_punct:
                 commentTokens.append(token.lower_)
         for ent in comment[3]:
-            if not ent.is_stop and not token.like_num:
+            if ent.ent_type_ in allowed_types:
                 commentTokens.append(ent)
-
-    print(Counter(articleTokens))
-    print(Counter(commentTokens))
-    
-    # Sum up all comment entities and print that
-    commentTokens=[]
-    for comment in comments:
-        commentTokens=commentTokens+list(comment[3])
-    print(Counter([ent.text for ent in commentTokens]))
 
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
