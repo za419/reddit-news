@@ -63,7 +63,7 @@ $(document).ready(function() {
                   document.getElementById("results").style.display="block";
               }
               catch (e) {
-                  console.log("Encountered error: "+e);
+                  console.log("Encountered error: "+e+":\n"+e.stack);
 
                   document.getElementById("results").style.display="none";
                   document.getElementById("error").style.display="block";
