@@ -28,8 +28,9 @@ def analyze(articleText, comments):
     # And re-analyze articleText (now sure that we don't have duplication between tokens and articleEnts).
     article = nlp(articleText)
 
-    articleTokens = []
-    commentTokens = []
+    articleTokens  = []
+    commentTokens  = []
+    commentSources = {}
 
     for token in article:
         if not token.is_stop and not token.like_num and not token.is_punct:
@@ -57,9 +58,13 @@ def analyze(articleText, comments):
         for token in comment[2]:
             if not token.is_stop and not token.like_num and not token.is_punct:
                 commentTokens.append(token.lower_)
+                if not token.lower_ in commentSources:
+                    commentSources[token.lower_]=(comment[0], comment[1])
         for ent in comment[3]:
             if ent.ent_type_ in allowed_types:
-                commentTokens.append(ent)
+                commentTokens.append(ent.text)
+                if not ent.text in commentSources:
+                    commentSources[token.lower_]=(comment[0], comment[1])
 
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
