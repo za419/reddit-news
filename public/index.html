@@ -25,8 +25,10 @@
   <div id="options">
     <div>Fetching limit: <span id="sliderValue">None</span> <span id="sliderUnit"></span></div>
     <input id="slider" type="range" min="0" max="1000" step="1"><br>
-    <label for="comments2">Use comments2 algorithm?</label>
-    <input id="comments2" name="comments2" type="checkbox">
+    <label for="comments2" style="display: none">Use comments2 algorithm?</label>
+    <input id="comments2" name="comments2" type="checkbox" checked style="display: none">
+    <label for="unlimited">No limit</label>
+    <input id="unlimited" name="unlimited" type="checkbox">
   </div>
   <input id="target" placeholder="Enter your Reddit target here" type="text">
   <button id="trigger">Fetch</button>

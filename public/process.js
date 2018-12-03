@@ -26,8 +26,14 @@ $(document).ready(function() {
       // Server request
       var target={};
       target.target=document.getElementById("target").value;
-      target.limit=document.getElementById("slider").value;
-      target.comments2=document.getElementById("comments2").checked;
+      if (document.getElementById("unlimited").checked) {
+          target.limit=0;
+          target.comments2=false;
+      }
+      else {
+          target.limit=document.getElementById("slider").value;
+          target.comments2=true;
+      }
 
       var thisRequest=lastRequest=target;
 
@@ -106,7 +112,7 @@ $(document).ready(function() {
    function updateUnits() {
       var units=document.getElementById("sliderUnit");
       var value=document.getElementById("slider").value;
-      var comments2=document.getElementById("comments2").checked;
+      var comments2=true;
 
       if (comments2) {
           if (value==1) {
@@ -132,7 +138,7 @@ $(document).ready(function() {
    function updateCount() {
       var label=document.getElementById("sliderValue");
       var value=this.value;
-      var comments2=document.getElementById("comments2").checked;
+      var comments2=true;
 
       if (value==0) {
           if (comments2){
