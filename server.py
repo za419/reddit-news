@@ -10,6 +10,7 @@ import hashlib
 import base64
 import math
 import traceback
+import analysis
 import string
 import gzip
 import bz2
