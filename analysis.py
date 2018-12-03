@@ -65,9 +65,11 @@ A population of about 600 people is roughly the size of one mid-size apartment c
     comments=l
     l=None
 
+    pos_whitelist = ["NOUN", "PROPN"]
+
     for comment in comments:
         for token in comment[2]:
-            if not token.is_stop and not token.like_num and not token.is_punct:
+            if not token.is_stop and not token.like_num and not token.is_punct and token.pos_ in pos_whitelist:
                 commentTokens.append(token.lower_)
                 if not token.lower_ in commentSources:
                     commentSources[token.lower_]=(comment[0], comment[1])
