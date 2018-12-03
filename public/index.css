@@ -5,6 +5,7 @@
 
 #results {
   display: none;
+  padding-top: 2em;
 }
 
 #loading {
@@ -48,5 +49,22 @@ body {
 
   body {
     width: 100%;
+  }
+}
+
+@media(min-width: 600px) {
+  #results {
+    clear: both;
+    column-count: 2;
+    column-gap: 4em;
+    column-rule-style: outset;
+  }
+
+  /*
+   * Insane trick to align columns in CSS
+   * Seriously, why do I have to do this for columns to start at the same place?
+   */
+  #unrelatedContainer,#relatedContainer {
+    border: 1px solid transparent;
   }
 }
