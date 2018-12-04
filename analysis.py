@@ -67,14 +67,14 @@ def analyze(articleText, comments):
 
     for comment in comments:
         for token in comment[2]:
-            if not token.is_stop and not token.like_num and not token.is_punct and token.pos_ in pos_whitelist:
+            if not token.is_stop and not token.lower_.isspace() and not token.like_num and not token.is_punct and token.pos_ in pos_whitelist:
                 commentTokens.append(token.lower_)
                 if not token.lower_ in commentSources:
                     commentSources[token.lower_]=[(comment[0], comment[1]),]
                 else:
                     commentSources[token.lower_].append((comment[0], comment[1]))
         for ent in comment[3]:
-            if ent.text in spacy.lang.en.stop_words.STOP_WORDS:
+            if ent.text in spacy.lang.en.stop_words.STOP_WORDS or ent.text.isspace():
                 continue
             try:
                 float(ent.text)
