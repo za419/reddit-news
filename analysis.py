@@ -73,7 +73,9 @@ A population of about 600 people is roughly the size of one mid-size apartment c
             if not token.is_stop and not token.like_num and not token.is_punct and token.pos_ in pos_whitelist:
                 commentTokens.append(token.lower_)
                 if not token.lower_ in commentSources:
-                    commentSources[token.lower_]=(comment[0], comment[1])
+                    commentSources[token.lower_]=[(comment[0], comment[1]),]
+                else:
+                    commentSources[token.lower_].append((comment[0], comment[1]))
         for ent in comment[3]:
             if ent.text in spacy.lang.en.stop_words.STOP_WORDS:
                 continue
@@ -85,14 +87,16 @@ A population of about 600 people is roughly the size of one mid-size apartment c
 
             commentTokens.append(ent.text)
             if not ent.text in commentSources:
-                commentSources[ent.text]=(comment[0], comment[1])
+                commentSources[ent.text]=[(comment[0], comment[1]),]
+            else:
+                commentSources[ent.text].append((comment[0], comment[1]))
 
     commentTokens=Counter(commentTokens)
 
     related=[]
     unrelated=[]
     for el in commentTokens.most_common():
-        source=commentSources[el[0]]
+        source=commentSources[el[0]][0]
         keyword=(source[0], source[1], el[0], el[1])
         if el[0] in articleTokens:
             related.append(keyword)
