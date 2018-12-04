@@ -721,11 +721,12 @@ def processRequest(request, conn, encodings=None):
     # Process comments into JSON-format (article should just be a string)
     related=json.dumps(results[0])
     unrelated=json.dumps(results[1])
+    sources=json.dumps(results[2])
 
     # Return the results wrapped in a JSON object
     sendResponse("200 OK",
                  "application/json",
-                 '{{"related": {0}, "unrelated": {1}}}'.format(related, unrelated),
+                 '{{"related": {0}, "unrelated": {1}, "sources": {2}}}'.format(related, unrelated, sources),
                  conn,
                  allowEncodings=encodings)
 
