@@ -9,9 +9,10 @@ nlp.vocab[" "].is_stop = True
 def analyze(articleText, comments):
     """
     Perform text analysis on passed article text and list of comment triples (from client.py)
-    Returns a pair of keyword lists.
+    Returns a pair of keyword lists, then a dictionary.
     The first list is those which are common between the comments and the article.
     The second is those which only appear in the comments.
+    The dictionary associates keyword strings to a comment source pair (commentID, commentPermalink).
 
     Each keyword list is itself a list of quads: (commentID, commentPermalink, keyword, frequency)
     commentID and commentPermalink point to some comment which referred to the keyword.
@@ -97,7 +98,7 @@ A population of about 600 people is roughly the size of one mid-size apartment c
             related.append(keyword)
         else:
             unrelated.append(keyword)
-    return (related, unrelated)
+    return (related, unrelated, commentSources)
 
 if __name__=="__main__" and False:
     # Just take arguments from argv and run analyze on them
