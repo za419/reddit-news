@@ -17,6 +17,7 @@ $(document).ready(function() {
             item.appendChild(document.createTextNode("Comment "));
 
             var l=document.createElement("a");
+            l.target="_blank";
             l.href="https://reddit.com"+mentions[i][1];
             l.appendChild(document.createTextNode(mentions[i][0]));
             item.appendChild(l);
@@ -46,6 +47,7 @@ $(document).ready(function() {
 
             l=document.createElement("a");
             l.href="https://reddit.com"+keywords[i][1];
+            l.target="_blank";
             l.appendChild(document.createTextNode(keywords[i][0]));
             item.appendChild(l);
 
