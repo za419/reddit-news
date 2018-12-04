@@ -1,7 +1,7 @@
 // Process.js: Handles linkage between web frontend and server backend
 
 $(document).ready(function() {
-    function formatResultsInto(keywords, list) {
+    function formatResultsInto(keywords, list, sources) {
         while (list.firstChild) list.removeChild(list.firstChild);
 
         var fragment=document.createDocumentFragment();
@@ -67,8 +67,8 @@ $(document).ready(function() {
               try {
                   document.getElementById("relatedCount").innerHTML=processed.related.length;
                   document.getElementById("unrelatedCount").innerHTML=processed.unrelated.length;
-                  formatResultsInto(processed.related, document.getElementById("related"));
-                  formatResultsInto(processed.unrelated, document.getElementById("unrelated"));
+                  formatResultsInto(processed.related, document.getElementById("related"), processed.sources);
+                  formatResultsInto(processed.unrelated, document.getElementById("unrelated"), processed.sources);
 
                   document.getElementById("results").style.display="block";
               }
