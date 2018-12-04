@@ -36,6 +36,16 @@ def analyze(articleText, comments):
     for token in article:
         if not token.is_stop and not token.like_num and not token.is_punct:
             articleTokens.append(token.lower_)
+            
+    for ent in articleEnts:
+        if ent.text in spacy.lang.en.stop_words.STOP_WORDS:
+            continue
+        try:
+            float(ent.text)
+            continue
+        except:
+            pass
+        articleTokens.append(ent.text)
 
     # Process all comments at once for named entities
     comments=[(comment[0], comment[1], comment[2], nlp(comment[2]).ents) for comment in comments]
