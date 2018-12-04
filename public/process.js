@@ -1,14 +1,14 @@
 // Process.js: Handles linkage between web frontend and server backend
 
 $(document).ready(function() {
-    function showMentions(e) {
-        var elt=e.querySelector(".mentions");
+    function showMentions() {
+        var elt=this.parentElement.querySelector(".mentions");
         elt.style.display=(elt.style.display=="block") ? "none" : "block";
     }
-    
+
     function formatMentionsInto(sources, keyword, list) {
         while (list.firstChild) list.removeChild(list.firstChild);
-        
+
         var mentions=sources[keyword];
 
         var fragment=document.createDocumentFragment();
@@ -27,7 +27,7 @@ $(document).ready(function() {
         list.appendChild(fragment.cloneNode(true));
     }
 
-    
+
     function formatResultsInto(keywords, list, sources) {
         while (list.firstChild) list.removeChild(list.firstChild);
 
@@ -36,36 +36,38 @@ $(document).ready(function() {
             var item=document.createElement("li")
             item.appendChild(document.createTextNode(keywords[i][2]));
             item.appendChild(document.createElement("br"));
-            
-            var l=document.createElement("a");
-            l.click=function() {
-                showMentions(item);
-            };
+
+            var l=document.createElement("span");
+            l.className="mentionsTrigger";
             l.appendChild(document.createTextNode(keywords[i][3]+" mentions,"));
             item.appendChild(l);
-            
+
             item.appendChild(document.createTextNode(" including at comment "));
 
             l=document.createElement("a");
             l.href="https://reddit.com"+keywords[i][1];
             l.appendChild(document.createTextNode(keywords[i][0]));
             item.appendChild(l);
-            
+
             l=document.createElement("div");
             l.className="mentions";
             l.style.display="none";
             var e=document.createElement("h5");
             e.appendChild(document.createTextNode("Mentions for \""+keywords[i][2]+"\":"));
             l.appendChild(e);
-            
+
             e=document.createElement("ul");
             formatMentionsInto(sources, keywords[i][2], e);
             l.appendChild(e);
+            item.append(l);
 
             fragment.appendChild(item);
         }
 
         list.appendChild(fragment.cloneNode(true));
+
+        // Make sure we don't add two handlers by repeated binding
+        $(".mentionsTrigger").unbind("click").click(showMentions);
     }
 
     var cancel=undefined;

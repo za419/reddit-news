@@ -38,6 +38,12 @@ body {
   margin: auto;
 }
 
+span.mentionsTrigger {
+  color: #00F;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 @media(max-width: 1000px) {
   #target {
     width: 35%;
