@@ -1,5 +1,5 @@
 # Reddit News
-EECS 338 project
+EECS 338 project  
 [View live](http://ec2-18-224-65-64.us-east-2.compute.amazonaws.com/)
 
 ## Requirements
